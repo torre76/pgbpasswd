@@ -23,7 +23,7 @@ but, when you are working with [CLI](https://en.wikipedia.org/wiki/Command-line_
 pgbpasswd <login> <password>
 ```
 
-will output the hash and the row that could be appended to `auth_file` to stanrdad output.
+will output the hash and the row that could be appended to `auth_file` to standard output.
 
 ```bash
 pgbpasswd <login> <password> -f <filename>
