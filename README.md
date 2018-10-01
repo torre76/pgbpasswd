@@ -10,7 +10,7 @@ PgBouncer companion script [mkauth.py](https://github.com/pgbouncer/pgbouncer/bl
 The formula to obtain a valid hash is quite simple:
 
 ```
-    hash = 'md5' + md5(login + password)
+    hash = 'md5' + md5(password + login)
 ```
 
 but, when you are working with [CLI](https://en.wikipedia.org/wiki/Command-line_interface) you hope for a *quick 'n' dirty* script that will do the job for you.
