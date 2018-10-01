@@ -15,6 +15,7 @@ LDFLAGS=-ldflags "-X=main.Build=$(BUILD)"
 # Install dependency manager
 install-dep:
 ifdef TRAVIS_HOME
+	$(info Downloading dendency manager...)
 	@go get -u github.com/golang/dep/cmd/dep
 endif
 
