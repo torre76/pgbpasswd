@@ -25,6 +25,10 @@ EXECUTABLES = git go
 K := $(foreach exec,$(EXECUTABLES),\
 	$(if $(shell command -v $(exec) 2> /dev/null),some string,$(error "No $(exec) in PATH)))
 
+# Install dependency manager
+install-dep:
+ 	@go get -u github.com/golang/dep/cmd/dep 
+
 # Install dependencies
 install-project-libraries:
 	$(info Ensure dependencies are met and download missing ones...)
@@ -36,7 +40,7 @@ test:
 	@go test -v -count=1 -timeout 120s github.com/torre76/pgbpasswd/encrypt &>/dev/null
 
 # Build
-build: check-env install-project-libraries test
+build: install-dep check-env install-project-libraries test
 	$(info Build final command to "build/pgbpasswd"...)
 	@go build $(LDFLAGS) -o build/pgbpasswd
 
