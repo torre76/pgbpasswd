@@ -10,7 +10,11 @@ LDFLAGS=-ldflags "-X=main.Build=$(BUILD)"
 .PHONY: check-env install-project-libraries test clean
 
 # Tasks that would have not echo on execution
-.SILENT: test clean 
+.SILENT: test clean
+
+install-dep: 
+	$(info Install dependency management system...)
+	@go get -u github.com/golang/dep/cmd/dep
 
 # Pre flight checks
 check-env:
@@ -35,7 +39,7 @@ test:
 	@go test -v -count=1 -timeout 120s github.com/torre76/pgbpasswd/encrypt &>/dev/null
 
 # Build
-build: check-env install-project-libraries test
+build: install-dep check-env install-project-libraries test
 	$(info Build final command to "build/pgbpasswd"...)
 	@go build $(LDFLAGS) -o build/pgbpasswd
 
