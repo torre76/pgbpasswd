@@ -1,6 +1,8 @@
 SHELL := /bin/bash
 BUILD := `git rev-parse HEAD`
 
+MY_VAR := $(shell which dep)
+
 .DEFAULT_GOAL := build
 
 # Use linker flags to provide build settings to the target
@@ -14,6 +16,8 @@ LDFLAGS=-ldflags "-X=main.Build=$(BUILD)"
 
 # Pre flight checks
 check-env:
+$(info $(MY_VAR))
+
 $(info Checking go environment...)
 ifndef GOPATH
 	$(error GOPATH is undefined)
