@@ -1,8 +1,6 @@
 SHELL := /bin/bash
 BUILD := `git rev-parse HEAD`
 
-MY_VAR := $(shell which dep)
-
 .DEFAULT_GOAL := build
 
 # Use linker flags to provide build settings to the target
@@ -16,21 +14,23 @@ LDFLAGS=-ldflags "-X=main.Build=$(BUILD)"
 
 # Pre flight checks
 check-env:
-$(info $(MY_VAR))
-
 $(info Checking go environment...)
 ifndef GOPATH
 	$(error GOPATH is undefined)
 endif
 
-ifdef TRAVIS_BUILD_DIR
-	export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$PATH"
-endif
 
 $(info Checking required dependencies for build...)
-EXECUTABLES = git go dep
+EXECUTABLES = git go
 K := $(foreach exec,$(EXECUTABLES),\
 	$(if $(shell command -v $(exec) 2> /dev/null),some string,$(error "No $(exec) in PATH)))
+
+$(info Checking dependency manager...)
+DEP_VERSION := $(shell dep version 2> /dev/null)
+
+ifndef DEP_VERSION
+	$(error Missing dependency manager (dep)!)
+endif
 
 # Install dependencies
 install-project-libraries:
