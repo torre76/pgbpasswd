@@ -12,6 +12,10 @@ LDFLAGS=-ldflags "-X=main.Build=$(BUILD)"
 # Tasks that would have not echo on execution
 .SILENT: test clean
 
+# Install dependency manager
+install-dep:
+	@go get -u github.com/golang/dep/cmd/dep
+
 # Pre flight checks
 check-env:
 $(info Checking go environment...)
@@ -24,10 +28,6 @@ $(info Checking required dependencies for build...)
 EXECUTABLES = git go
 K := $(foreach exec,$(EXECUTABLES),\
 	$(if $(shell command -v $(exec) 2> /dev/null),some string,$(error "No $(exec) in PATH)))
-
-# Install dependency manager
-install-dep:
- 	@go get -u github.com/golang/dep/cmd/dep 
 
 # Install dependencies
 install-project-libraries:
