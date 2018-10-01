@@ -14,7 +14,9 @@ LDFLAGS=-ldflags "-X=main.Build=$(BUILD)"
 
 # Install dependency manager
 install-dep:
+ifdef TRAVIS_HOME
 	@go get -u github.com/golang/dep/cmd/dep
+endif
 
 # Pre flight checks
 check-env:
@@ -25,9 +27,15 @@ endif
 
 
 $(info Checking required dependencies for build...)
-EXECUTABLES = git go
-K := $(foreach exec,$(EXECUTABLES),\
-	$(if $(shell command -v $(exec) 2> /dev/null),some string,$(error "No $(exec) in PATH)))
+ifdef TRAVIS_HOME
+	EXECUTABLES = git go
+	K := $(foreach exec,$(EXECUTABLES),\
+		$(if $(shell command -v $(exec) 2> /dev/null),some string,$(error "No $(exec) in PATH)))
+else
+	EXECUTABLES = git go dep
+	K := $(foreach exec,$(EXECUTABLES),\
+		$(if $(shell command -v $(exec) 2> /dev/null),some string,$(error "No $(exec) in PATH)))
+endif
 
 # Install dependencies
 install-project-libraries:
