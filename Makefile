@@ -22,7 +22,7 @@ endif
 $(info Checking required dependencies for build...)
 EXECUTABLES = git go dep
 K := $(foreach exec,$(EXECUTABLES),\
-	$(if $(shell which $(exec)),some string,$(error "No $(exec) in PATH)))
+	$(if $(shell command -v $(exec) 2> /dev/null),some string,$(error "No $(exec) in PATH)))
 
 # Install dependencies
 install-project-libraries:
