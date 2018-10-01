@@ -25,13 +25,6 @@ EXECUTABLES = git go
 K := $(foreach exec,$(EXECUTABLES),\
 	$(if $(shell command -v $(exec) 2> /dev/null),some string,$(error "No $(exec) in PATH)))
 
-$(info Checking dependency manager...)
-DEP_VERSION := $(shell dep version 2> /dev/null)
-
-ifndef DEP_VERSION
-	$(error Missing dependency manager (dep)!)
-endif
-
 # Install dependencies
 install-project-libraries:
 	$(info Ensure dependencies are met and download missing ones...)
