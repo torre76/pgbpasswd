@@ -12,15 +12,15 @@ LDFLAGS=-ldflags "-X=main.Build=$(BUILD)"
 # Tasks that would have not echo on execution
 .SILENT: test clean
 
-install-dep: 
-	$(info Install dependency management system...)
-	@go get -u github.com/golang/dep/cmd/dep
-
 # Pre flight checks
 check-env:
 $(info Checking go environment...)
 ifndef GOPATH
 	$(error GOPATH is undefined)
+endif
+
+ifdef TRAVIS_BUILD_DIR
+	export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$PATH"
 endif
 
 $(info Checking required dependencies for build...)
@@ -39,7 +39,7 @@ test:
 	@go test -v -count=1 -timeout 120s github.com/torre76/pgbpasswd/encrypt &>/dev/null
 
 # Build
-build: install-dep check-env install-project-libraries test
+build: check-env install-project-libraries test
 	$(info Build final command to "build/pgbpasswd"...)
 	@go build $(LDFLAGS) -o build/pgbpasswd
 
