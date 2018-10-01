@@ -14,28 +14,29 @@ LDFLAGS=-ldflags "-X=main.Build=$(BUILD)"
 
 # Pre flight checks
 check-env:
+$(info Checking go environment...)
 ifndef GOPATH
 	$(error GOPATH is undefined)
 endif
 
-EXECUTABLES = git go 
+$(info Checking required dependencies for build...)
+EXECUTABLES = git go dep
 K := $(foreach exec,$(EXECUTABLES),\
 	$(if $(shell which $(exec)),some string,$(error "No $(exec) in PATH)))
 
-# Install dependency manager
-install-dep:
-	@go get -u github.com/golang/dep/cmd/dep 
-
 # Install dependencies
 install-project-libraries:
+	$(info Ensure dependencies are met and download missing ones...)
 	@dep ensure
 
 # Test
 test:
+	$(info Build and run tests...)
 	@go test -v -count=1 -timeout 120s github.com/torre76/pgbpasswd/encrypt &>/dev/null
 
 # Build
-build: check-env install-dep install-project-libraries test
+build: check-env install-project-libraries test
+	$(info Build final command to "build/pgbpasswd"...)
 	@go build $(LDFLAGS) -o build/pgbpasswd
 
 # Clean
