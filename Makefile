@@ -46,7 +46,8 @@ install-project-libraries:
 # Test
 test:
 	$(info Build and run tests...)
-	@go test -v -count=1 -timeout 120s github.com/torre76/pgbpasswd/encrypt &>/dev/null
+	@go test -v -count=1 -timeout 120s github.com/torre76/pgbpasswd/encrypt github.com/torre76/pgbpasswd/types &>/dev/null
+	
 
 # Build
 build: install-dep check-env install-project-libraries test
