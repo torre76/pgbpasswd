@@ -1,11 +1,16 @@
 package files
 
-import "github.com/torre76/pgbpasswd/types"
+import (
+	"os"
+
+	"github.com/torre76/pgbpasswd/types"
+)
 
 // FileManager writes a collection of Login and Hashed Password to a file
 // Since there are at least two different formats there will be multiple implementations
 type FileManager interface {
-	fileExists(filename string) (bool, error)
+	// fileExists checks if a file exists on filesystem
+	fileExists(filename string) bool
 
 	removeFile(fileName string) error
 
@@ -19,8 +24,13 @@ type baseFileManager struct {
 	FileManager
 }
 
-func (fm *baseFileManager) fileExists(filename string) (bool, error) {
-	return false, nil
+func (fm *baseFileManager) fileExists(filename string) bool {
+	if _, err := os.Stat(filename); err != nil {
+		if os.IsNotExist(err) {
+			return false
+		}
+	}
+	return true
 }
 
 func (fm *baseFileManager) removeFile(filename string) error {
