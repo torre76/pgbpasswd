@@ -3,7 +3,9 @@ package files
 import "github.com/torre76/pgbpasswd/types"
 
 // AuthFileFileManager is a FileManager that writes PGBouncer Auth File Style files
-type AuthFileFileManager struct{}
+type AuthFileFileManager struct {
+	baseFileManager
+}
 
 func (fm *AuthFileFileManager) Read(fileName string) ([]types.LoginPassword, error) {
 	return nil, nil
