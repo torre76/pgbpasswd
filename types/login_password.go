@@ -20,3 +20,8 @@ func (lp *LoginPassword) String() string {
 func NewLoginPassword(login string, password string) *LoginPassword {
 	return &LoginPassword{login, encrypt.PgMd5HashedPassword(login, password)}
 }
+
+// NewLoginHashedPassword initalize a LoginPassword structure starting from Postgres login and already hashed password
+func NewLoginHashedPassword(login string, passwordHash string) *LoginPassword {
+	return &LoginPassword{login, passwordHash}
+}
