@@ -14,6 +14,7 @@ type FileManager interface {
 	// fileExists checks if a file exists on filesystem
 	fileExists(filename string) bool
 
+	// removeFile delete a file from filesystem
 	removeFile(fileName string) error
 
 	// copyFile copy a file from source to destination
@@ -66,5 +67,9 @@ func (fm *baseFileManager) fileExists(filename string) bool {
 }
 
 func (fm *baseFileManager) removeFile(filename string) error {
-	return nil
+	if !fm.fileExists(filename) {
+		return errors.New("File to remove does not exist")
+	}
+
+	return os.Remove(filename)
 }
