@@ -8,7 +8,7 @@ import (
 
 func TestFileExists(t *testing.T) {
 	assert := assert.New(t)
-	fileManager := AuthFileFileManager{}
+	fileManager := NewAuthFileFileManager()
 
 	assert.True(fileManager.fileExists("/etc/sudoers"))
 	assert.False(fileManager.fileExists("/etc/bashrca"))
@@ -16,7 +16,7 @@ func TestFileExists(t *testing.T) {
 
 func TestCopyFile(t *testing.T) {
 	assert := assert.New(t)
-	fileManager := AuthFileFileManager{}
+	fileManager := NewAuthFileFileManager()
 
 	assert.Nil(fileManager.copyFile("/etc/localtime", "/tmp/localtime"))
 	assert.True(fileManager.fileExists("/tmp/localtime"))

@@ -1,16 +1,23 @@
 package files
 
-import "github.com/torre76/pgbpasswd/types"
+import (
+	"github.com/torre76/pgbpasswd/types"
+)
 
-// AuthFileFileManager is a FileManager that writes PGBouncer Auth File Style files
-type AuthFileFileManager struct {
+// authFileFileManager is a FileManager that writes PGBouncer Auth File Style files
+type authFileFileManager struct {
 	baseFileManager
 }
 
-func (fm *AuthFileFileManager) Read(fileName string) ([]types.LoginPassword, error) {
+func (fm *authFileFileManager) Read(fileName string) ([]types.LoginPassword, error) {
 	return nil, nil
 }
 
-func (fm *AuthFileFileManager) Write(fileName string, elements []types.LoginPassword) error {
+func (fm *authFileFileManager) Write(fileName string, elements []types.LoginPassword) error {
 	return nil
+}
+
+// NewAuthFileFileManager create an instance of File Manager that deals with with PgBouncer Auth File format
+func NewAuthFileFileManager() FileManager {
+	return &authFileFileManager{}
 }
