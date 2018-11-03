@@ -41,7 +41,27 @@ func TestRead(t *testing.T) {
 	asset, _ := filepath.Abs("../test_data/users.txt")
 
 	result, _ := fileManager.Read(asset)
+
 	assert.NotNil(result)
 	assert.True(len(result) == 3)
 	assert.Equal(result[2].Login, `macha_"test"`)
+}
+
+func TestReadMissingFile(t *testing.T) {
+	assert := assert.New(t)
+	fileManager := NewAuthFileFileManager()
+
+	_, err := fileManager.Read("asset")
+
+	assert.Equal(err.Error(), "Cannot read from file, does it exists?")
+}
+
+func TestReadMalformed(t *testing.T) {
+	assert := assert.New(t)
+	fileManager := NewAuthFileFileManager()
+	asset, _ := filepath.Abs("../test_data/users_malformed.txt")
+
+	_, err := fileManager.Read(asset)
+
+	assert.Equal(err.Error(), "File format is not valid")
 }
