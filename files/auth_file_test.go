@@ -19,5 +19,6 @@ func TestCopyFile(t *testing.T) {
 	fileManager := AuthFileFileManager{}
 
 	assert.Nil(fileManager.copyFile("/etc/localtime", "/tmp/localtime"))
+	assert.True(fileManager.fileExists("/tmp/localtime"))
 
 }
