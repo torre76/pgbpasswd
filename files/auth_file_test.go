@@ -72,6 +72,7 @@ func TestWrite(t *testing.T) {
 	assert := assert.New(t)
 	fileManager := NewAuthFileFileManager()
 	tmp, _ := filepath.Abs("../test_data/users_write.txt")
+	fileManager.removeFile(tmp)
 
 	var mockData = []types.LoginPassword{
 		*types.NewLoginPassword("pippo", "pippo"),
