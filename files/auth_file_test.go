@@ -4,6 +4,8 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/torre76/pgbpasswd/types"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -64,4 +66,19 @@ func TestReadMalformed(t *testing.T) {
 	_, err := fileManager.Read(asset)
 
 	assert.Equal(err.Error(), "File format is not valid")
+}
+
+func TestWrite(t *testing.T) {
+	assert := assert.New(t)
+	fileManager := NewAuthFileFileManager()
+	tmp, _ := filepath.Abs("../test_data/users_write.txt")
+
+	var mockData = []types.LoginPassword{
+		*types.NewLoginPassword("pippo", "pippo"),
+		*types.NewLoginPassword("astro", "astro"),
+		*types.NewLoginPassword("dae\"mon", "astro"),
+	}
+
+	err := fileManager.Write(tmp, mockData)
+	assert.Nil(err)
 }
