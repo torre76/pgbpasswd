@@ -82,4 +82,30 @@ func TestWrite(t *testing.T) {
 
 	err := fileManager.Write(tmp, mockData)
 	assert.Nil(err)
+
+	mockData = []types.LoginPassword{
+		*types.NewLoginPassword("mickey", "mouse"),
+	}
+
+	err = fileManager.Write(tmp, mockData)
+	assert.Nil(err)
+}
+
+func TestWriteDuplicate(t *testing.T) {
+	assert := assert.New(t)
+	fileManager := NewAuthFileFileManager()
+	tmp, _ := filepath.Abs("../test_data/users_write.txt")
+	fileManager.removeFile(tmp)
+
+	var mockData = []types.LoginPassword{
+		*types.NewLoginPassword("pippo", "pippo"),
+		*types.NewLoginPassword("astro", "astro"),
+		*types.NewLoginPassword("dae\"mon", "astro"),
+	}
+
+	err := fileManager.Write(tmp, mockData)
+	assert.Nil(err)
+
+	err = fileManager.Write(tmp, mockData)
+	assert.NotNil(err)
 }
